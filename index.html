@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YQSF Plateau State — Member Registration</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060b08;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        /* Floating background orbs for depth and premium look */
+        .bg-orb {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.12;
+            pointer-events: none;
+            animation: float 25s infinite alternate ease-in-out;
+        }
+
+        .bg-orb-1 {
+            background: #10b981;
+            top: -50px;
+            left: -50px;
+        }
+
+        .bg-orb-2 {
+            background: #d4af37;
+            bottom: -100px;
+            right: -50px;
+            animation-delay: -12.5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(60px, 40px) scale(1.15);
+            }
+        }
+
+        .wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* Glassmorphic Container */
+        .glass-card {
+            background: rgba(10, 18, 14, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(16, 185, 129, 0.04) inset;
+            border-radius: 24px;
+            padding: 44px;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Subtle overlay scanline effect */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.015) 50%, rgba(0, 0, 0, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header img.logo {
+            display: block;
+            margin: 0 auto 16px;
+            height: 64px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.2));
+            transition: transform 0.3s ease;
+        }
+
+        header img.logo:hover {
+            transform: scale(1.05);
+        }
+
+        header .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: #fbbf24;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.05);
+        }
+
+        header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.25;
+            background: linear-gradient(135deg, #ffffff 40%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 14px;
+            color: #94a3b8;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #34d399;
+            margin: 36px 0 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(52, 211, 153, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-label i {
+            width: 15px;
+            height: 15px;
+        }
+
+        .field {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        label .req {
+            color: #f43f5e;
+            margin-left: 2px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.prefix-icon {
+            position: absolute;
+            left: 14px;
+            color: #64748b;
+            width: 17px;
+            height: 17px;
+            transition: color 0.3s;
+            pointer-events: none;
+        }
+
+        .select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4.5px solid transparent;
+            border-right: 4.5px solid transparent;
+            border-top: 4.5px solid #64748b;
+            pointer-events: none;
+            transition: border-top-color 0.3s;
+        }
+
+        .select-wrapper:focus-within::after {
+            border-top-color: #34d399;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 13px 16px 13px 42px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #f8fafc;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.8);
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #34d399;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow:
+                0 0 0 3px rgba(52, 211, 153, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        input:focus+i.prefix-icon,
+        select:focus+i.prefix-icon {
+            color: #34d399;
+        }
+
+        /* Style dropdown choices */
+        select option {
+            background: #0d1310;
+            color: #f8fafc;
+        }
+
+        .row2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 580px) {
+            .row2 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .glass-card {
+                padding: 30px 20px;
+                border-radius: 16px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            header img.logo {
+                height: 56px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .glass-card {
+                padding: 20px 12px;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            header p {
+                font-size: 13px;
+            }
+        }
+
+        /* Error States */
+        .error-msg {
+            color: #f43f5e;
+            font-size: 11.5px;
+            margin-top: 6px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            animation: fadeInDown 0.25s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-invalid {
+            border-color: #f43f5e !important;
+            box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.15) !important;
+        }
+
+        .input-invalid+i.prefix-icon {
+            color: #f43f5e !important;
+        }
+
+        /* Submit Button with loader */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 36px;
+            position: relative;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Success Box styling */
+        .success-box {
+            display: none;
+            text-align: center;
+            padding: 30px 10px;
+            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: #10b981;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+            animation: pulseSuccess 2s infinite;
+        }
+
+        @keyframes pulseSuccess {
+
+            0%,
+            100% {
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+            }
+        }
+
+        .success-box h2 {
+            font-family: 'Outfit', sans-serif;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .success-box p {
+            color: #94a3b8;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #475569;
+            padding: 24px 16px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Drifting BG Orbs -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+
+    <div class="wrapper">
+        <div class="glass-card">
+
+            <div id="formContainer">
+                <header>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs7GiKL6ipOsEeQFipw20TCK-GW-WSY37Hn-r-FXyPHw&s=10"
+                        alt="YQSF Logo" class="logo" />
+                    <div class="badge">
+                        <i data-lucide="shield-check" style="width: 12px; height: 12px;"></i>
+                        Plateau State Chapter
+                    </div>
+                    <h1>Young Quantity Surveyors Forum</h1>
+                    <p>Complete the form below to register as a YQSF member</p>
+                </header>
+
+                <!-- Section 1: Personal Information -->
+                <div class="section-label">
+                    <i data-lucide="user"></i>
+                    Personal Information
+                </div>
+
+                <div class="field">
+                    <label for="fullName">Full Name <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" id="fullName" placeholder="Surname First Name Middle Name" />
+                        <i data-lucide="user" class="prefix-icon"></i>
+                    </div>
+                    <div class="error-msg" id="err-fullName">
+                        <i data-lucide="alert-circle" style="width: 13px; height: 13px;"></i>
+                        Please enter your full name.
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="gender">Gender <span class="req">*</span></label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="gender">
+                                    <option value="">Select</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                                <i data-lucide="users" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                        <div class="error-msg" id="err-gender">
+                            <i data-lucide="alert-circle" style="width: 13px; height: 13px;"></i>
+                            Required.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="dob">Date of Birth</label>
+                        <div class="input-wrapper">
+                            <input type="date" id="dob" />
+                            <i data-lucide="calendar" class="prefix-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="phone">Phone Number <span class="req">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="phone" placeholder="08012345678" />
+                            <i data-lucide="phone" class="prefix-icon"></i>
+                        </div>
+                        <div class="error-msg" id="err-phone">
+                            <i data-lucide="alert-circle" style="width: 13px; height: 13px;"></i>
+                            Enter a valid phone number.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="whatsapp">WhatsApp Number</label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="whatsapp" placeholder="If different" />
+                            <i data-lucide="message-square" class="prefix-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" placeholder="you@example.com" />
+                        <i data-lucide="mail" class="prefix-icon"></i>
+                    </div>
+                    <div class="error-msg" id="err-email">
+                        <i data-lucide="alert-circle" style="width: 13px; height: 13px;"></i>
+                        Enter a valid email address.
+                    </div>
+                </div>
+
+
+
+                <div class="field">
+                    <label for="address">Residential Address</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="address" placeholder="Current address" />
+                        <i data-lucide="home" class="prefix-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Section 2: Academic & Professional -->
+                <div class="section-label">
+                    <i data-lucide="graduation-cap"></i>
+                    Academic &amp; Professional
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="institution">Institution Attended <span class="req">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="institution" placeholder="University / Polytechnic" />
+                            <i data-lucide="book-open" class="prefix-icon"></i>
+                        </div>
+                        <div class="error-msg" id="err-institution">
+                            <i data-lucide="alert-circle" style="width: 13px; height: 13px;"></i>
+                            Required.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="gradYear">Year of Graduation</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="gradYear">
+                                    <option value="">Select year</option>
+                                </select>
+                                <i data-lucide="award" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="nysc">NYSC Status <span class="req">*</span></label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="nysc">
+                                    <option value="">Select</option>
+                                    <option>Completed</option>
+                                    <option>In Progress</option>
+                                    <option>Awaiting</option>
+                                    <option>Exempted</option>
+                                </select>
+                                <i data-lucide="flag" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                        <div class="error-msg" id="err-nysc">
+                            <i data-lucide="alert-circle" style="width: 13px; height: 13px;"></i>
+                            Required.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="employment">Employment Status</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="employment">
+                                    <option value="">Select</option>
+                                    <option>Employed</option>
+                                    <option>Self-Employed</option>
+                                    <option>Unemployed</option>
+                                </select>
+                                <i data-lucide="briefcase" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="employer">Employer / Organisation</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="employer" placeholder="If employed or self-employed" />
+                        <i data-lucide="building-2" class="prefix-icon"></i>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="practice">Area of Practice</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="practice">
+                                    <option value="">Select</option>
+                                    <option>Consulting</option>
+                                    <option>Contracting</option>
+                                    <option>Public Service</option>
+                                    <option>Academia</option>
+                                    <option>Other</option>
+                                </select>
+                                <i data-lucide="compass" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="niqs">NIQS Membership Status</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="niqs">
+                                    <option value="">Select</option>
+                                    <option>Student Member</option>
+                                    <option>Graduate Member</option>
+                                    <option>Probationer</option>
+                                    <option>Associate (ANIQS)</option>
+                                    <option>Full Member (MNIQS)</option>
+                                    <option>Fellow (FNIQS)</option>
+                                </select>
+                                <i data-lucide="user-check" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="niqsNo">NIQS Membership No.</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="niqsNo" placeholder="If applicable" />
+                            <i data-lucide="hash" class="prefix-icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="qsrbn">Registered with QSRBN?</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="qsrbn">
+                                    <option value="">Select</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                                <i data-lucide="check-square" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Additional Info -->
+                <div class="section-label">
+                    <i data-lucide="sparkles"></i>
+                    Additional Info
+                </div>
+
+                <div class="field">
+                    <label for="skills">Skills / Areas of Expertise</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="skills" placeholder="e.g. Estimating, BIM, Contract Admin" />
+                        <i data-lucide="wrench" class="prefix-icon"></i>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="field">
+                        <label for="volunteer">Willing to Volunteer?</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="volunteer">
+                                    <option value="">Select</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                                <i data-lucide="heart" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="referral">How did you hear about YQSF?</label>
+                        <div class="select-wrapper">
+                            <div class="input-wrapper">
+                                <select id="referral">
+                                    <option value="">Select</option>
+                                    <option>WhatsApp</option>
+                                    <option>Referral</option>
+                                    <option>Social Media</option>
+                                    <option>Event / Programme</option>
+                                    <option>Other</option>
+                                </select>
+                                <i data-lucide="megaphone" class="prefix-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+                    <span id="btnText">Register Now</span>
+                    <i data-lucide="send" id="btnIcon" style="width: 16px; height: 16px;"></i>
+                    <div class="spinner" id="btnSpinner"></div>
+                </button>
+            </div>
+
+            <!-- Success Box State -->
+            <div class="success-box" id="successBox">
+                <div class="success-icon">
+                    <i data-lucide="check" style="width: 36px; height: 36px;"></i>
+                </div>
+                <h2>Registration Successful!</h2>
+                <p>Welcome to YQSF Plateau State Chapter.<br>Your details have been recorded. We'll be in touch soon.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>YQSF Plateau State Chapter &copy; 2026</footer>
+
+    <!-- Lucide Icon Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // ──────────────────────────────────────────────────────
+        // CONFIGURATION
+        // Replace SCRIPT_URL with your Google Apps Script Web App URL
+        // ──────────────────────────────────────────────────────
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVkIwSNUNugh747FcyXyJpKL2oRS7myclYzc1grptzsCfMu25byiFEGOHmSjd6-Abg/exec";
+
+        // Initialize Lucide icons and graduation year dropdown
+        document.addEventListener("DOMContentLoaded", () => {
+            // Render Lucide icons
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+
+            // Populate graduation year dropdown
+            const gradYearSelect = document.getElementById("gradYear");
+            if (gradYearSelect) {
+                for (let y = 2026; y >= 2000; y--) {
+                    const option = document.createElement("option");
+                    option.value = y;
+                    option.textContent = y;
+                    gradYearSelect.appendChild(option);
+                }
+            }
+        });
+
+        function validate() {
+            const required = [
+                { id: "fullName", errId: "err-fullName" },
+                { id: "gender", errId: "err-gender" },
+                { id: "phone", errId: "err-phone" },
+                { id: "institution", errId: "err-institution" },
+                { id: "nysc", errId: "err-nysc" },
+            ];
+
+            let valid = true;
+
+            required.forEach(({ id, errId }) => {
+                const el = document.getElementById(id);
+                const err = document.getElementById(errId);
+                if (!el.value.trim()) {
+                    err.style.display = "flex";
+                    el.classList.add("input-invalid");
+                    valid = false;
+                } else {
+                    err.style.display = "none";
+                    el.classList.remove("input-invalid");
+                }
+            });
+
+            // Email format check
+            const email = document.getElementById("email");
+            const emailErr = document.getElementById("err-email");
+            if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                emailErr.style.display = "flex";
+                email.classList.add("input-invalid");
+                valid = false;
+            } else {
+                emailErr.style.display = "none";
+                if (email.value) {
+                    email.classList.remove("input-invalid");
+                }
+            }
+
+            return valid;
+        }
+
+        function submitForm() {
+            if (!validate()) {
+                // Scroll to the first invalid input
+                const firstInvalid = document.querySelector(".input-invalid");
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+                return;
+            }
+
+            const submitBtn = document.getElementById("submitBtn");
+            const btnText = document.getElementById("btnText");
+            const btnIcon = document.getElementById("btnIcon");
+            const btnSpinner = document.getElementById("btnSpinner");
+
+            // UI feedback for submitting state
+            submitBtn.disabled = true;
+            btnText.textContent = "Registering...";
+            btnIcon.style.display = "none";
+            btnSpinner.style.display = "block";
+
+            const data = {
+                fullName: document.getElementById("fullName").value.trim(),
+                gender: document.getElementById("gender").value,
+                dob: document.getElementById("dob").value,
+                phone: document.getElementById("phone").value.trim(),
+                whatsapp: document.getElementById("whatsapp").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                address: document.getElementById("address").value.trim(),
+                institution: document.getElementById("institution").value.trim(),
+                gradYear: document.getElementById("gradYear").value,
+                nysc: document.getElementById("nysc").value,
+                employment: document.getElementById("employment").value,
+                employer: document.getElementById("employer").value.trim(),
+                practice: document.getElementById("practice").value,
+                niqs: document.getElementById("niqs").value,
+                niqsNo: document.getElementById("niqsNo").value.trim(),
+                qsrbn: document.getElementById("qsrbn").value,
+                skills: document.getElementById("skills").value.trim(),
+                volunteer: document.getElementById("volunteer").value,
+                referral: document.getElementById("referral").value,
+                date: new Date().toLocaleDateString("en-GB"),
+            };
+
+            // Send to Google Apps Script
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" },
+                mode: "no-cors"
+            }).then(() => {
+                document.getElementById("formContainer").style.display = "none";
+                document.getElementById("successBox").style.display = "block";
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }).catch(err => {
+                alert("Submission failed. Please check your connection and try again.");
+                console.error(err);
+
+                // Re-enable button on error
+                submitBtn.disabled = false;
+                btnText.textContent = "Register Now";
+                btnIcon.style.display = "block";
+                btnSpinner.style.display = "none";
+            });
+        }
+    </script>
+
+</body>
+
+</html>
